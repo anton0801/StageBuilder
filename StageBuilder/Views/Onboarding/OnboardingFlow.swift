@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct OnboardingFlow: View {
-    @EnvironmentObject var appState: AppState
+    @EnvironmentObject var appState: ApplicationMainState
     @State private var currentPage = 0
 
     let pages: [OnboardingPage] = [

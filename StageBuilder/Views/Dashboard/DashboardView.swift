@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct DashboardView: View {
-    @EnvironmentObject var appState: AppState
+    @EnvironmentObject var appState: ApplicationMainState
     @EnvironmentObject var dataStore: DataStore
     @Environment(\.colorScheme) var scheme
     @State private var appeared = false

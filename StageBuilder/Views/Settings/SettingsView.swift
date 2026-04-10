@@ -3,7 +3,7 @@ import UserNotifications
 
 // MARK: - Notifications View
 struct NotificationsView: View {
-    @EnvironmentObject var appState: AppState
+    @EnvironmentObject var appState: ApplicationMainState
     @EnvironmentObject var dataStore: DataStore
     @State private var pendingNotifications: [UNNotificationRequest] = []
     @State private var authStatus: UNAuthorizationStatus = .notDetermined
@@ -265,7 +265,7 @@ struct ScheduledNotifRow: View {
 
 // MARK: - Profile View
 struct ProfileView: View {
-    @EnvironmentObject var appState: AppState
+    @EnvironmentObject var appState: ApplicationMainState
     @EnvironmentObject var dataStore: DataStore
     @State private var isEditing = false
     @State private var editName = ""
@@ -442,7 +442,7 @@ struct InfoDisplayRow: View {
 
 // MARK: - Settings View
 struct SettingsView: View {
-    @EnvironmentObject var appState: AppState
+    @EnvironmentObject var appState: ApplicationMainState
     @EnvironmentObject var dataStore: DataStore
     @State private var showLogoutAlert = false
     @State private var showDeleteAlert = false

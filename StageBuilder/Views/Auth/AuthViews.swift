@@ -2,7 +2,7 @@ import SwiftUI
 
 // MARK: - Welcome View
 struct WelcomeView: View {
-    @EnvironmentObject var appState: AppState
+    @EnvironmentObject var appState: ApplicationMainState
     @State private var showLogin = false
     @State private var showSignUp = false
     @State private var appeared = false
@@ -126,13 +126,13 @@ struct FeatureChip: View {
 
 // MARK: - Login View
 struct LoginView: View {
-    @EnvironmentObject var appState: AppState
+    @EnvironmentObject var appState: ApplicationMainState
     @StateObject private var vm: AuthViewModel
     @Environment(\.presentationMode) var presentationMode
     @State private var appeared = false
 
     init() {
-        _vm = StateObject(wrappedValue: AuthViewModel(appState: AppState()))
+        _vm = StateObject(wrappedValue: AuthViewModel(appState: ApplicationMainState()))
     }
 
     var body: some View {
@@ -202,7 +202,7 @@ struct LoginView: View {
 
 // Override to inject correct appState
 struct LoginViewWrapper: View {
-    @EnvironmentObject var appState: AppState
+    @EnvironmentObject var appState: ApplicationMainState
     @State private var email = ""
     @State private var password = ""
     @State private var isLoading = false
@@ -271,7 +271,7 @@ struct LoginViewWrapper: View {
 
 // MARK: - Sign Up View
 struct SignUpView: View {
-    @EnvironmentObject var appState: AppState
+    @EnvironmentObject var appState: ApplicationMainState
     @State private var name = ""
     @State private var email = ""
     @State private var password = ""

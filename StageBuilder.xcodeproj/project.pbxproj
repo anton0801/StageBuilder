@@ -8,11 +8,42 @@
 
 /* Begin PBXBuildFile section */
 		8F677B322F83F2A300BA1736 /* codemagic.yaml in Resources */ = {isa = PBXBuildFile; fileRef = 8F677B302F83F29E00BA1736 /* codemagic.yaml */; };
+		8F677DF42F87DAB600BA1736 /* PostgREST in Frameworks */ = {isa = PBXBuildFile; productRef = 8F677DF32F87DAB600BA1736 /* PostgREST */; };
+		8F677DF62F87DAB600BA1736 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 8F677DF52F87DAB600BA1736 /* Supabase */; };
+		8F677DF92F87DADC00BA1736 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 8F677DF82F87DADC00BA1736 /* FirebaseMessaging */; };
+		8F677DFC2F87DAED00BA1736 /* AppsFlyerLib in Frameworks */ = {isa = PBXBuildFile; productRef = 8F677DFB2F87DAED00BA1736 /* AppsFlyerLib */; };
+		8F677FFA2F88FED200BA1736 /* StageBuilderNotificationExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 8F677FF32F88FED200BA1736 /* StageBuilderNotificationExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		8F6780022F88FEE800BA1736 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 8F6780012F88FEE800BA1736 /* FirebaseMessaging */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		8F677FF82F88FED200BA1736 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8F6778A12F7E7BD200BA1736 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8F677FF22F88FED200BA1736;
+			remoteInfo = StageBuilderNotificationExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		8F677FFF2F88FED200BA1736 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				8F677FFA2F88FED200BA1736 /* StageBuilderNotificationExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		8F6778A92F7E7BD200BA1736 /* StageBuilder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StageBuilder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F677B302F83F29E00BA1736 /* codemagic.yaml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = codemagic.yaml; sourceTree = "<group>"; };
+		8F677FF32F88FED200BA1736 /* StageBuilderNotificationExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = StageBuilderNotificationExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -22,6 +53,13 @@
 				Info.plist,
 			);
 			target = 8F6778A82F7E7BD200BA1736 /* StageBuilder */;
+		};
+		8F677FFE2F88FED200BA1736 /* Exceptions for "StageBuilderNotificationExtension" folder in "StageBuilderNotificationExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 8F677FF22F88FED200BA1736 /* StageBuilderNotificationExtension */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -34,6 +72,14 @@
 			path = StageBuilder;
 			sourceTree = "<group>";
 		};
+		8F677FF42F88FED200BA1736 /* StageBuilderNotificationExtension */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				8F677FFE2F88FED200BA1736 /* Exceptions for "StageBuilderNotificationExtension" folder in "StageBuilderNotificationExtension" target */,
+			);
+			path = StageBuilderNotificationExtension;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,6 +87,18 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8F677DF92F87DADC00BA1736 /* FirebaseMessaging in Frameworks */,
+				8F677DFC2F87DAED00BA1736 /* AppsFlyerLib in Frameworks */,
+				8F677DF62F87DAB600BA1736 /* Supabase in Frameworks */,
+				8F677DF42F87DAB600BA1736 /* PostgREST in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8F677FF02F88FED200BA1736 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8F6780022F88FEE800BA1736 /* FirebaseMessaging in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -52,6 +110,8 @@
 			children = (
 				8F677B302F83F29E00BA1736 /* codemagic.yaml */,
 				8F6778AB2F7E7BD200BA1736 /* StageBuilder */,
+				8F677FF42F88FED200BA1736 /* StageBuilderNotificationExtension */,
+				8F6780002F88FEE800BA1736 /* Frameworks */,
 				8F6778AA2F7E7BD200BA1736 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -60,8 +120,16 @@
 			isa = PBXGroup;
 			children = (
 				8F6778A92F7E7BD200BA1736 /* StageBuilder.app */,
+				8F677FF32F88FED200BA1736 /* StageBuilderNotificationExtension.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		8F6780002F88FEE800BA1736 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -74,20 +142,49 @@
 				8F6778A52F7E7BD200BA1736 /* Sources */,
 				8F6778A62F7E7BD200BA1736 /* Frameworks */,
 				8F6778A72F7E7BD200BA1736 /* Resources */,
+				8F677FFF2F88FED200BA1736 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				8F677FF92F88FED200BA1736 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				8F6778AB2F7E7BD200BA1736 /* StageBuilder */,
 			);
 			name = StageBuilder;
 			packageProductDependencies = (
+				8F677DF32F87DAB600BA1736 /* PostgREST */,
+				8F677DF52F87DAB600BA1736 /* Supabase */,
+				8F677DF82F87DADC00BA1736 /* FirebaseMessaging */,
+				8F677DFB2F87DAED00BA1736 /* AppsFlyerLib */,
 			);
 			productName = StageBuilder;
 			productReference = 8F6778A92F7E7BD200BA1736 /* StageBuilder.app */;
 			productType = "com.apple.product-type.application";
+		};
+		8F677FF22F88FED200BA1736 /* StageBuilderNotificationExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8F677FFB2F88FED200BA1736 /* Build configuration list for PBXNativeTarget "StageBuilderNotificationExtension" */;
+			buildPhases = (
+				8F677FEF2F88FED200BA1736 /* Sources */,
+				8F677FF02F88FED200BA1736 /* Frameworks */,
+				8F677FF12F88FED200BA1736 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				8F677FF42F88FED200BA1736 /* StageBuilderNotificationExtension */,
+			);
+			name = StageBuilderNotificationExtension;
+			packageProductDependencies = (
+				8F6780012F88FEE800BA1736 /* FirebaseMessaging */,
+			);
+			productName = StageBuilderNotificationExtension;
+			productReference = 8F677FF32F88FED200BA1736 /* StageBuilderNotificationExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -102,6 +199,9 @@
 					8F6778A82F7E7BD200BA1736 = {
 						CreatedOnToolsVersion = 16.4;
 					};
+					8F677FF22F88FED200BA1736 = {
+						CreatedOnToolsVersion = 16.4;
+					};
 				};
 			};
 			buildConfigurationList = 8F6778A42F7E7BD200BA1736 /* Build configuration list for PBXProject "StageBuilder" */;
@@ -113,12 +213,18 @@
 			);
 			mainGroup = 8F6778A02F7E7BD200BA1736;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				8F677DF22F87DAB600BA1736 /* XCRemoteSwiftPackageReference "supabase-swift" */,
+				8F677DF72F87DADC00BA1736 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				8F677DFA2F87DAED00BA1736 /* XCRemoteSwiftPackageReference "AppsFlyerFramework" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 8F6778AA2F7E7BD200BA1736 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				8F6778A82F7E7BD200BA1736 /* StageBuilder */,
+				8F677FF22F88FED200BA1736 /* StageBuilderNotificationExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -132,6 +238,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8F677FF12F88FED200BA1736 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -142,7 +255,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8F677FEF2F88FED200BA1736 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		8F677FF92F88FED200BA1736 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8F677FF22F88FED200BA1736 /* StageBuilderNotificationExtension */;
+			targetProxy = 8F677FF82F88FED200BA1736 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		8F6778B32F7E7BD400BA1736 /* Debug */ = {
@@ -272,6 +400,7 @@
 				INFOPLIST_FILE = StageBuilder/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Stage Builder";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Allow to use this feature in this application";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "Stage Builder may use limited device-related technical information to support project staging features, maintain stable performance, and improve overall functionality. This data is used solely for internal diagnostics and continuous enhancement. It is not used to track users across other apps or websites and is not shared with third parties for advertising purposes.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -286,7 +415,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 15.3;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.buldingstagestage.StageBuilder;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -313,6 +442,7 @@
 				INFOPLIST_FILE = StageBuilder/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Stage Builder";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Allow to use this feature in this application";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "Stage Builder may use limited device-related technical information to support project staging features, maintain stable performance, and improve overall functionality. This data is used solely for internal diagnostics and continuous enhancement. It is not used to track users across other apps or websites and is not shared with third parties for advertising purposes.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -327,7 +457,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 15.3;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.buldingstagestage.StageBuilder;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -338,6 +468,67 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				XROS_DEPLOYMENT_TARGET = 2.5;
+			};
+			name = Release;
+		};
+		8F677FFC2F88FED200BA1736 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = StageBuilderNotificationExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = StageBuilderNotificationExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.buldingstagestage.StageBuilder.StageBuilderNotificationExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		8F677FFD2F88FED200BA1736 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = StageBuilderNotificationExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = StageBuilderNotificationExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.buldingstagestage.StageBuilder.StageBuilderNotificationExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
@@ -362,7 +553,71 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		8F677FFB2F88FED200BA1736 /* Build configuration list for PBXNativeTarget "StageBuilderNotificationExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8F677FFC2F88FED200BA1736 /* Debug */,
+				8F677FFD2F88FED200BA1736 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		8F677DF22F87DAB600BA1736 /* XCRemoteSwiftPackageReference "supabase-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/supabase/supabase-swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.5.1;
+			};
+		};
+		8F677DF72F87DADC00BA1736 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.12.0;
+			};
+		};
+		8F677DFA2F87DAED00BA1736 /* XCRemoteSwiftPackageReference "AppsFlyerFramework" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AppsFlyerSDK/AppsFlyerFramework";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.17.9;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		8F677DF32F87DAB600BA1736 /* PostgREST */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8F677DF22F87DAB600BA1736 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = PostgREST;
+		};
+		8F677DF52F87DAB600BA1736 /* Supabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8F677DF22F87DAB600BA1736 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Supabase;
+		};
+		8F677DF82F87DADC00BA1736 /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8F677DF72F87DADC00BA1736 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
+		};
+		8F677DFB2F87DAED00BA1736 /* AppsFlyerLib */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8F677DFA2F87DAED00BA1736 /* XCRemoteSwiftPackageReference "AppsFlyerFramework" */;
+			productName = AppsFlyerLib;
+		};
+		8F6780012F88FEE800BA1736 /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8F677DF72F87DADC00BA1736 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 8F6778A12F7E7BD200BA1736 /* Project object */;
 }

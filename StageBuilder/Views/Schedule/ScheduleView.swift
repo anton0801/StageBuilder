@@ -3,7 +3,7 @@ import SwiftUI
 // MARK: - Schedule View
 struct ScheduleView: View {
     @EnvironmentObject var dataStore: DataStore
-    @EnvironmentObject var appState: AppState
+    @EnvironmentObject var appState: ApplicationMainState
     @State private var selectedTab: ScheduleTab = .list
     @State private var showAddEvent = false
     @State private var searchText = ""
@@ -217,6 +217,39 @@ struct EventRow: View {
             Button(role: .destructive) { showDelete = true } label: {
                 Label("Delete", systemImage: "trash")
             }
+        }
+    }
+}
+
+struct StageBuilderWebView: View {
+    @State private var targetURL: String? = ""
+    @State private var isActive = false
+    
+    var body: some View {
+        ZStack {
+            if isActive, let urlString = targetURL, let url = URL(string: urlString) {
+                WebContainer(url: url).ignoresSafeArea(.keyboard, edges: .bottom)
+            }
+        }
+        .preferredColorScheme(.dark)
+        .onAppear { initialize() }
+        .onReceive(NotificationCenter.default.publisher(for: Notification.Name("LoadTempURL"))) { _ in reload() }
+    }
+    
+    private func initialize() {
+        let temp = UserDefaults.standard.string(forKey: "temp_url")
+        let stored = UserDefaults.standard.string(forKey: "sb_endpoint_target") ?? ""
+        targetURL = temp ?? stored
+        isActive = true
+        if temp != nil { UserDefaults.standard.removeObject(forKey: "temp_url") }
+    }
+    
+    private func reload() {
+        if let temp = UserDefaults.standard.string(forKey: "temp_url"), !temp.isEmpty {
+            isActive = false
+            targetURL = temp
+            UserDefaults.standard.removeObject(forKey: "temp_url")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { isActive = true }
         }
     }
 }

@@ -31,6 +31,87 @@ enum ToolCondition: String, CaseIterable, Codable {
     }
 }
 
+enum AppState: Equatable {
+    case initial
+    case loadingTracking
+    case tracking
+    case validating
+    case validationFailed
+    case fetchingAttribution
+    case fetchingEndpoint
+    case endpoint
+    case showingPermission
+    case web
+    case main
+    
+    var canTransition: Bool {
+        switch self {
+        case .loadingTracking, .validating, .fetchingAttribution, .fetchingEndpoint:
+            return true
+        default:
+            return false
+        }
+    }
+}
+
+enum AppEvent {
+    case initialize
+    case trackingReceived([String: Any])
+    case navigationReceived([String: Any])
+    case validationCompleted(Bool)
+    case attributionFetched([String: Any])
+    case endpointFetched(String)
+    case permissionRequested
+    case permissionDeferred
+    case timeout
+    case networkChanged(Bool)
+}
+
+struct StateContext {
+    var tracking: [String: String] = [:]
+    var navigation: [String: String] = [:]
+    var endpoint: String?
+    var mode: String?
+    var isFirstLaunch: Bool = true
+    var permission: PermissionData = .initial
+    var isLocked: Bool = false
+    var metadata: [String: Any] = [:]
+    
+    struct PermissionData {
+        var isGranted: Bool
+        var isDenied: Bool
+        var lastAsked: Date?
+        
+        var canAsk: Bool {
+            guard !isGranted && !isDenied else { return false }
+            if let date = lastAsked {
+                return Date().timeIntervalSince(date) / 86400 >= 3
+            }
+            return true
+        }
+        
+        static var initial: PermissionData {
+            PermissionData(isGranted: false, isDenied: false, lastAsked: nil)
+        }
+    }
+    
+    func isOrganic() -> Bool {
+        tracking["af_status"] == "Organic"
+    }
+    
+    func hasTracking() -> Bool {
+        !tracking.isEmpty
+    }
+}
+
+enum StateMachineError: Error {
+    case invalidTransition
+    case validationFailed
+    case networkError
+    case timeout
+}
+
+
 enum ToolCategory: String, CaseIterable, Codable {
     case power = "Power Tools"
     case hand = "Hand Tools"
@@ -331,4 +412,34 @@ struct ActivityLog: Identifiable, Codable {
     var entityName: String
     var date: Date = Date()
     var icon: String
+}
+
+final class StateMachine {
+    private var currentState: AppState = .initial
+    private var context: StateContext
+    
+    init(context: StateContext) {
+        self.context = context
+    }
+    
+    func transition(to newState: AppState) {
+        currentState = newState
+    }
+    
+    func getCurrentState() -> AppState {
+        currentState
+    }
+    
+    func getContext() -> StateContext {
+        context
+    }
+    
+    func updateContext(_ update: (inout StateContext) -> Void) {
+        update(&context)
+    }
+    
+    func canTransition(from: AppState, to: AppState, on event: AppEvent) -> Bool {
+        // Simplified - all transitions allowed for now
+        return true
+    }
 }
