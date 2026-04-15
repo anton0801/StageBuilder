@@ -142,8 +142,8 @@
             filePath = "StageBuilder/ViewModels/ViewModels.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "525"
-            endingLineNumber = "525"
+            startingLineNumber = "597"
+            endingLineNumber = "597"
             landmarkName = "processState(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -158,8 +158,8 @@
             filePath = "StageBuilder/ViewModels/ViewModels.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "491"
-            endingLineNumber = "491"
+            startingLineNumber = "563"
+            endingLineNumber = "563"
             landmarkName = "processState(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -174,8 +174,8 @@
             filePath = "StageBuilder/ViewModels/ViewModels.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "545"
-            endingLineNumber = "545"
+            startingLineNumber = "617"
+            endingLineNumber = "617"
             landmarkName = "processState(_:)"
             landmarkType = "7">
          </BreakpointContent>

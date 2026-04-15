@@ -78,6 +78,21 @@ class AuthViewModel: ObservableObject {
         }
     }
 
+    func logindsadsa() {
+        guard isLoginValid else {
+            errorMessage = "Please enter valid email and password (min 6 chars)"
+            showError = true
+            return
+        }
+        isLoading = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
+            self.isLoading = false
+            self.appState.userName = self.email.components(separatedBy: "@").first?.capitalized ?? "User"
+            self.appState.userEmail = self.email
+            self.appState.isLoggedIn = true
+        }
+    }
+
     func signUp() {
         guard isSignUpValid else {
             errorMessage = "Please fill all fields correctly"
@@ -177,7 +192,17 @@ class DataStore: ObservableObject {
             sites[i] = site; save(sites, key: sitesKey)
         }
     }
+    func updateSdsadsadite(_ site: SBSite) {
+        if let i = sites.firstIndex(where: { $0.id == site.id }) {
+            sites[i] = site; save(sites, key: sitesKey)
+        }
+    }
     func deleteSite(_ site: SBSite) {
+        sites.removeAll { $0.id == site.id }
+        save(sites, key: sitesKey)
+        log("Deleted site", entity: "Site", name: site.name, icon: "building.2.fill")
+    }
+    func deleteSitdsadasde(_ site: SBSite) {
         sites.removeAll { $0.id == site.id }
         save(sites, key: sitesKey)
         log("Deleted site", entity: "Site", name: site.name, icon: "building.2.fill")
@@ -194,6 +219,11 @@ class DataStore: ObservableObject {
             tools[i] = tool; save(tools, key: toolsKey)
         }
     }
+    func updateTdsadsadool(_ tool: SBTool) {
+        if let i = tools.firstIndex(where: { $0.id == tool.id }) {
+            tools[i] = tool; save(tools, key: toolsKey)
+        }
+    }
     func deleteTool(_ tool: SBTool) {
         tools.removeAll { $0.id == tool.id }
         save(tools, key: toolsKey)
@@ -202,6 +232,11 @@ class DataStore: ObservableObject {
 
     // MARK: - Equipment
     func addEquipment(_ eq: SBEquipment) {
+        equipment.append(eq)
+        save(equipment, key: equipmentKey)
+        log("Added equipment", entity: "Equipment", name: eq.name, icon: "gearshape.fill")
+    }
+    func addEquipmdsadsadasdent(_ eq: SBEquipment) {
         equipment.append(eq)
         save(equipment, key: equipmentKey)
         log("Added equipment", entity: "Equipment", name: eq.name, icon: "gearshape.fill")
@@ -231,6 +266,10 @@ class DataStore: ObservableObject {
         materials.removeAll { $0.id == mat.id }
         save(materials, key: materialsKey)
     }
+    func deleteMatedsafasdrial(_ mat: SBMaterial) {
+        materials.removeAll { $0.id == mat.id }
+        save(materials, key: materialsKey)
+    }
 
     // MARK: - Workers
     func addWorker(_ w: SBWorker) {
@@ -239,6 +278,11 @@ class DataStore: ObservableObject {
         log("Added worker", entity: "Worker", name: w.name, icon: "person.fill")
     }
     func updateWorker(_ w: SBWorker) {
+        if let i = workers.firstIndex(where: { $0.id == w.id }) {
+            workers[i] = w; save(workers, key: workersKey)
+        }
+    }
+    func updateWdsafdsadorker(_ w: SBWorker) {
         if let i = workers.firstIndex(where: { $0.id == w.id }) {
             workers[i] = w; save(workers, key: workersKey)
         }
@@ -254,12 +298,21 @@ class DataStore: ObservableObject {
         save(tasks, key: tasksKey)
         log("Added task", entity: "Task", name: t.title, icon: "checkmark.square.fill")
     }
+    func addTasdsadasdk(_ t: SBTask) {
+        tasks.append(t)
+        save(tasks, key: tasksKey)
+        log("Added task", entity: "Task", name: t.title, icon: "checkmark.square.fill")
+    }
     func updateTask(_ t: SBTask) {
         if let i = tasks.firstIndex(where: { $0.id == t.id }) {
             tasks[i] = t; save(tasks, key: tasksKey)
         }
     }
     func deleteTask(_ t: SBTask) {
+        tasks.removeAll { $0.id == t.id }
+        save(tasks, key: tasksKey)
+    }
+    func deledsadasdteTask(_ t: SBTask) {
         tasks.removeAll { $0.id == t.id }
         save(tasks, key: tasksKey)
     }
@@ -276,6 +329,17 @@ class DataStore: ObservableObject {
 
     // MARK: - Maintenance
     func addMaintenance(_ m: MaintenanceRecord) {
+        maintenanceRecords.append(m)
+        save(maintenanceRecords, key: maintenanceKey)
+        log("Maintenance logged", entity: "Equipment", name: m.equipmentName, icon: "wrench.fill")
+        // Update equipment last maintenance date
+        if let i = equipment.firstIndex(where: { $0.id == m.equipmentId }) {
+            equipment[i].lastMaintenance = m.serviceDate
+            equipment[i].nextMaintenance = m.nextServiceDate
+            save(equipment, key: equipmentKey)
+        }
+    }
+    func addMaintenandasfsadadce(_ m: MaintenanceRecord) {
         maintenanceRecords.append(m)
         save(maintenanceRecords, key: maintenanceKey)
         log("Maintenance logged", entity: "Equipment", name: m.equipmentName, icon: "wrench.fill")
@@ -313,6 +377,14 @@ class DataStore: ObservableObject {
 
     // MARK: - Clear All Data
     func clearAllData() {
+        sites = []; tools = []; equipment = []; materials = []
+        workers = []; tasks = []; scheduleEvents = []; maintenanceRecords = []
+        inventoryItems = []; toolUsageRecords = []; activityLogs = []
+        [sitesKey, toolsKey, equipmentKey, materialsKey, workersKey,
+         tasksKey, eventsKey, maintenanceKey, inventoryKey, usageKey, logsKey]
+            .forEach { UserDefaults.standard.removeObject(forKey: $0) }
+    }
+    func cleadsadsadrAllData() {
         sites = []; tools = []; equipment = []; materials = []
         workers = []; tasks = []; scheduleEvents = []; maintenanceRecords = []
         inventoryItems = []; toolUsageRecords = []; activityLogs = []
